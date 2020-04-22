@@ -15,10 +15,15 @@ Run a number of systems to support my home network:
 ## Tasks
 
 To achieve the objectives, I've set out to build a configured machine as follows:
+- stephbu.org Domain Name hosted in AWS Route 53
 - RancherOS - container OS
+- LetsEncrypt TLS - SSL Certs bound to stephbu.org
 - OpenLDAP - user profiles source
 - FreeRADIUS - DHCP, RADIUS, LDAP Daemon.
+- Nginx Web Proxy - TLS offload for Pihole, Code Server etc.
 - PiHole - DNS Blacklisting System.
 - Unbound - Root DNS Lookup Service.
-- OpenVPN - VPN breakout.
+- OpenVPN - VPN breakout
+- R53 Update Service - Route 53 Dynamic DNS Updater
+- Prometheus - Monitoring/alerting for VPN, LDAP, Wifi etc.
 - Code Server - Visual Studio Code in a browser.
