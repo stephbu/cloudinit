@@ -10,12 +10,13 @@ Run a number of systems to support my home network:
 2) Run a copy of the DNS root servers to improve performance and reduce network snooping
 3) Run a DNS blacklister for common adware, malware etc.
 4) Enable code development on my IPad through the Code Server project.
-5) Learn more about the state-of-the-art container OS's currently being developed.
+5) Secure the platform using industry-standard x509 mTLS certs
+6) Learn more about the state-of-the-art container OS's currently being developed.
 
 ## Tasks
 
 To achieve the objectives, I've set out to build a configured machine as follows:
-1. stephbu.org Domain Name hosted in AWS Route 53 [Creating Domains](CreatingDomains.md)
+1. stephbu.org Domain Name hosted in AWS Route 53 ([Creating Domains](CreatingDomains.md))
 2. RancherOS - container OS
 3. LetsEncrypt TLS - SSL Certs bound to stephbu.org
 4. OpenLDAP - user profiles source

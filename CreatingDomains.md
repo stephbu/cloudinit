@@ -1,4 +1,4 @@
-# Creating A Domain
+# Creating Domains
 
 ## Why?
 I want to use SSL to secure interactions with my domain server.  I could have used self-signed certificates, but that would require installation of certificate chains on all devices that needed to interact with the network, sites and services.
