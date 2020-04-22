@@ -18,7 +18,8 @@ Run a number of systems to support my home network:
 To achieve the objectives, I've set out to build a configured machine as follows:
 1. [x] stephbu.org Domain Name hosted in AWS Route 53 ([Creating Domains](CreatingDomains.md))
 2. [ ] RancherOS - container OS
-3. [ ] LetsEncrypt TLS - SSL Certs bound to stephbu.org
+3. [ ] LetsEncrypt TLS - Certbot to get TLS certificates bound to stephbu.org
+3. [ ] File System Design ([File System Design](FileSystemDesign.md)) 
 4. [ ] OpenLDAP - user profiles source
 5. [ ] FreeRADIUS - DHCP, RADIUS, LDAP Daemon.
 6. [ ] Nginx Web Proxy - TLS offload for Pihole, Code Server etc.
