@@ -18,14 +18,14 @@ Run a number of systems to support my home network:
 To achieve the objectives, I've set out to build a configured machine as follows:
 1. [x] stephbu.org Domain Name hosted in AWS Route 53 ([Creating Domains](CreatingDomains.md))
 2. [ ] RancherOS - container OS
-3. [] LetsEncrypt TLS - SSL Certs bound to stephbu.org
-4. [] OpenLDAP - user profiles source
-5. [] FreeRADIUS - DHCP, RADIUS, LDAP Daemon.
-6. [] Nginx Web Proxy - TLS offload for Pihole, Code Server etc.
-7. [] PiHole - DNS Blacklisting System.
-8. [] Unbound - Root DNS Lookup Service.
-9. [] OpenVPN - VPN breakout
-10. [] R53 Update Service - Route 53 Dynamic DNS Updater
-11. [] Prometheus - Monitoring/alerting for VPN, LDAP, Wifi etc.
-12. [] Code Server - Visual Studio Code in a browser.
+3. [ ] LetsEncrypt TLS - SSL Certs bound to stephbu.org
+4. [ ] OpenLDAP - user profiles source
+5. [ ] FreeRADIUS - DHCP, RADIUS, LDAP Daemon.
+6. [ ] Nginx Web Proxy - TLS offload for Pihole, Code Server etc.
+7. [ ] PiHole - DNS Blacklisting System.
+8. [ ] Unbound - Root DNS Lookup Service.
+9. [ ] OpenVPN - VPN breakout
+10. [ ] R53 Update Service - Route 53 Dynamic DNS Updater
+11. [ ] Prometheus - Monitoring/alerting for VPN, LDAP, Wifi etc.
+12. [ ] Code Server - Visual Studio Code in a browser.
 
