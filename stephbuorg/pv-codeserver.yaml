@@ -12,3 +12,11 @@ spec:
   storageClassName: local-storage
   local:
     path: /opt/codeserver
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: k3os.io/mode
+          operator: In
+          values:
+          - local
