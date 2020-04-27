@@ -20,13 +20,13 @@ spec:
       - name: server
         image: codercom/code-server:latest
         ports:
-          - containerPort: 8081
-            hostPort: 8081
+        - containerPort: 8081
+          hostPort: 8081
         volumeMounts:
-          name: codeserver-storage
+        - name: codeserver-storage
           mountPath: /home/coder/project
       volumes:
-        - name: codeserver-storage
-          persistentVolumeClaim:
-            claimName: codeserver-project-storage
+      - name: codeserver-storage
+        persistentVolumeClaim:
+          claimName: codeserver-project-storage
               
