@@ -6,10 +6,10 @@ spec:
   replicas: 1
   template:
     spec:
-      hostNetwork:true
+      hostNetwork: true
       containers:
       - name: server
         image: codercom/code-server:latest
         ports:
         - containerPort: 8081
-          hostPort:8081
+          hostPort: 8081
