@@ -1,9 +1,10 @@
 #cloud-config
 mounts:
-  - [tmpfs,/tmp,tmpfs,"defaults,noatime,nosuid,size=384m",0,0]
-  - [tmpfs,/var/tmp,tmpfs,"defaults,noatime,nosuid,size=30m",0,0]
-  - [tmpfs,/var/log,tmpfs,"defaults,noatime,nosuid,mode=0755,size=128m",0,0]
-  - [tmpfs,/var/run,tmpfs,"defaults,noatime,nosuid,mode=0755,size=2m",0,0]
-  - [tmpfs,/var/spool/mqueue,tmpfs,"defaults,noatime,nosuid,mode=0700,gid=12,size=30m",0,0]
+- [tmpfs,/tmp,tmpfs,"noatime,nosuid,size=384m",0,0]
+- [tmpfs,/var/tmp,tmpfs,"noatime,nosuid,size=30m",0,0]
+- [tmpfs,/var/log,tmpfs,"noatime,nosuid,mode=0755,size=128m",0,0]
+- [tmpfs,/var/run,tmpfs,"noatime,nosuid,mode=0755,size=2m",0,0]
+- [tmpfs,/var/spool/mqueue,tmpfs,"noatime,nosuid,mode=0700,gid=12,size=30m",0,0]
 ssh_authorized_keys:
-  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC65skdoR/lF+cRXpkeTN0KGBNN9HwLm33sGbGWrTFCehr6AsC+HFdi/M1+OQ7Y+gbgp6/06ioe53GhmBfv1DlwGEkoYP+KO0zhwih+R3nGefRGcetjWoMG8esSRDIhS6jZnxkmD2kI9uEW3A6A2PZgSr5EFVAUpiN0jrgd4rXE0urMDW7NRvGGeWLaYLP1GjcE4Mv878QF0QvSHY7yLWEGUDu9HqZ66j1oRtvl5SBX3sNIBEKaRt35iJ/3xK4RGLL6vHWEX+BUuupsKi2Fo8xcanN6/To7Dxc7s5cg3gWtaqEZaC7L/IPvx/2SvcsGIthX8c9Zge5/ef7obEc308sjNxOtiJw9rCmg+TeIjxPBSaWjUB31O93hgDWS5+BgiFPnIJZnykzxeDtrc4BMXLr1zUDsOoFbjIFyg9gWntsexqs1rN7T37/ASHG3McIdngSZSOdGrhBSPPEs4WMKf+vivTsQ3eaFl6ET9B5BMPOgLZfjUoi+/IRPNFngsrub4oM98eoD4QCyy2OgWzfYu3t4Qwc88shu7kvZqfL4eB9UH6ymxkJNZwSkhIwMFvTCoaNNu5IRchrP2Oo/l7xIPzNKx7vGWtjCR8d7BX0vlEhyX37lmAPBe1evYL8ujeV6uYBSnE/v8mvlhp5lnOaed8OFWMx/+S9O1kjIaSc1OITAkw== stephbu@gmail.com
+- ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC65skdoR/lF+cRXpkeTN0KGBNN9HwLm33sGbGWrTFCehr6AsC+HFdi/M1+OQ7Y+gbgp6/06ioe53GhmBfv1DlwGEkoYP+KO0zhwih+R3nGefRGcetjWoMG8esSRDIhS6jZnxkmD2kI9uEW3A6A2PZgSr5EFVAUpiN0jrgd4rXE0urMDW7NRvGGeWLaYLP1GjcE4Mv878QF0QvSHY7yLWEGUDu9HqZ66j1oRtvl5SBX3sNIBEKaRt35iJ/3xK4RGLL6vHWEX+BUuupsKi2Fo8xcanN6/To7Dxc7s5cg3gWtaqEZaC7L/IPvx/2SvcsGIthX8c9Zge5/ef7obEc308sjNxOtiJw9rCmg+TeIjxPBSaWjUB31O93hgDWS5+BgiFPnIJZnykzxeDtrc4BMXLr1zUDsOoFbjIFyg9gWntsexqs1rN7T37/ASHG3McIdngSZSOdGrhBSPPEs4WMKf+vivTsQ3eaFl6ET9B5BMPOgLZfjUoi+/IRPNFngsrub4oM98eoD4QCyy2OgWzfYu3t4Qwc88shu7kvZqfL4eB9UH6ymxkJNZwSkhIwMFvTCoaNNu5IRchrP2Oo/l7xIPzNKx7vGWtjCR8d7BX0vlEhyX37lmAPBe1evYL8ujeV6uYBSnE/v8mvlhp5lnOaed8OFWMx/+S9O1kjIaSc1OITAkw== stephbu@gmail.com
+- "github:stephbu"

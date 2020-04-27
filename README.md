@@ -44,7 +44,7 @@ To achieve the objectives, I've set out to build a configured machine as follows
 - reading the K3os quickstart, figure I'll model this first in a VM to get a feel for the cloud-init required to bootstrap it.  https://github.com/rancher/k3os#quick-start
 - really slick feature of RancherOS's cloud-init is the "use a github account's accepted public keys for SSH" e.g. my accepted public keys.  https://github.com/stephbu.keys
 
-##### Sunday April 27
+##### Sunday April 26
 - Bought a Kodlix GD41, and waited for that to arrive from Amazon.  Turned out to be a lemon, trouble getting a stable 4K video stream, and SATA not working.  
 - I ordered a Zotac CI660 Nano instead.  After a hiatus waiting for my Zotac PC.  I've restarted my quest, using K3OS.
 - Installed 16Gb of RAM, and a Samsung EVO-860 256gb SSD.  Blazingly fast.  
@@ -53,3 +53,6 @@ To achieve the objectives, I've set out to build a configured machine as follows
 - The Zotac CI660 is absolutely silent.
 - Need to write cloud-init FSTAB config to move /var/logs etc. to TMPFS
 - Starting to customize and write workload declarations for Kubernetes.
+
+##### Monday April 27
+- Researching the best way to share volumes between Kubernetes pod instances, as well as the best way to store data from pods.  While the old-school for this single-node approach would be just mount volumes in the pod description, I'm interested in using Persistent Volumes, so I'm going to take that approach instead.

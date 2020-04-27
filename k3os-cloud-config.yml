@@ -1,0 +1,9 @@
+ssh_authorized_keys:
+# use SSH public keys from my GitHub account
+# syntax: "github:<accountname>"
+# maps to https://github.com/<accountname>.keys
+- "github:stephbu"
+
+k3os:
+  dns_nameservers:
+  - 1.1.1.1
