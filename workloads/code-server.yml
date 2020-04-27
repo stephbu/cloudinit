@@ -10,7 +10,7 @@ spec:
     spec:
         hostNetwork:true
         containers:
-        - name: code-server
-          image: codercom/code-server:latest
-          ports:
-          - containerPort: 8080
+          - name: code-server
+            image: codercom/code-server:latest
+            ports:
+            - containerPort: 8080
