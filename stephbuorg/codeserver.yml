@@ -23,9 +23,10 @@ spec:
           - containerPort: 8081
             hostPort: 8081
         volumeMounts:
-        - name: code-server-storage
+          name: codeserver-storage
           mountPath: /home/coder/project
       volumes:
-      - name: code-server-storage
-        emptyDir: {}
+        - name: codeserver-storage
+          persistentVolumeClaim:
+            claimName: codeserver-project-storage
               
