@@ -8,8 +8,8 @@ spec:
     spec:
       hostNetwork: true
       containers:
-      - name: server
-        image: codercom/code-server:latest
-        ports:
-        - containerPort: 8081
-          hostPort: 8081
+        - name: server
+          image: codercom/code-server:latest
+          ports:
+            - containerPort: 8081
+              hostPort: 8081
