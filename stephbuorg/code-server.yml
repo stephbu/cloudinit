@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codeserver
+  labels:
+    app: codeserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: codeserver
+  template:
+    metadata:
+      labels:
+        app: codeserver
+    spec:
+      hostNetwork: true
+      containers:
+      - name: server
+        image: codercom/code-server:latest
+        ports:
+          - containerPort: 8081
+            hostPort: 8081
+        volumeMounts:
+        - name: code-server-storage
+          mountPath: /home/coder/project
+      volumes:
+      - name: code-server-storage
+        emptyDir: {}
+              
