@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:code-server
+  name: codeserver
 spec:
   replicas: 1
   template:
     spec:
       hostNetwork:true
       containers:
-      - name: code-server
+      - name: server
         image: codercom/code-server:latest
         ports:
         - containerPort: 8081
