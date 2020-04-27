@@ -3,6 +3,8 @@ kind: PersistentVolume
 metadata:
   name: project-storage
   namespace: stephbuorg
+  labels:
+    asset: code
 spec:
   capacity:
     storage: 50Gi
