@@ -22,11 +22,11 @@ spec:
         imagePullPolicy: Always
         args: 
         - "-p"
-        - "8081"
+        - "8443"
         - "--allow-http"
         ports:
-        - containerPort: 8081
-          hostPort: 8081
+        - containerPort: 8443
+          hostPort: 8443
         securityContext:
           privileged: true
         volumeMounts:
