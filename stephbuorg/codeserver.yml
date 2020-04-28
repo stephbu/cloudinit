@@ -20,10 +20,15 @@ spec:
       - name: server
         image: codercom/code-server
         imagePullPolicy: Always
-        args: ["--allow-http"]
+        args: 
+        - "-p"
+        - "8081"
+        - "--allow-http"
         ports:
         - containerPort: 8081
           hostPort: 8081
+        securityContext:
+          privileged: true
         volumeMounts:
         - name: codeserver-storage
           mountPath: /home/coder/project
