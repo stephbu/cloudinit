@@ -18,7 +18,9 @@ spec:
       hostNetwork: true
       containers:
       - name: server
-        image: codercom/code-server:latest
+        image: codercom/code-server
+        imagePullPolicy: Always
+        args: ["--allow-http"]
         ports:
         - containerPort: 8081
           hostPort: 8081
