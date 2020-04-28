@@ -8,7 +8,7 @@ spec:
     storage: 50Gi
   volumeMode: Filesystem
   accessModes:
-  - ReadWriteOnly
+  - ReadWriteOnce
   - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: code-storage
