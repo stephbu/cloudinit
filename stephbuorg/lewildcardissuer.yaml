@@ -1,0 +1,20 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: le-wildcard-issuer
+  namespace: stephbuorg
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: stephbu@gmail.com
+    privateKeySecretRef:
+      name: le-wildcard-issuer
+    dns01:
+      providers:
+        - name: aws-dns
+          route53:
+            region: us-west-1
+            accessKeyID: AWS_ACCESS_KEY_ID
+            secretAccessKeySecretRef:
+              name: awscreds
+              key: password.txt

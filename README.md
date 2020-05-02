@@ -57,3 +57,20 @@ To achieve the objectives, I've set out to build a configured machine as follows
 ##### Monday April 27
 - Researching the best way to share volumes between Kubernetes pod instances, as well as the best way to store data from pods.  While the old-school for this single-node approach would be just mount volumes in the pod description, I'm interested in using Persistent Volumes, so I'm going to take that approach instead.
 - Probably the worst thing working with Kubernetes features is the number of stale examples and documents. Persistent volumes have gone through loads of revisions, and most of the syntax has changed.
+
+##### Thursday April 30
+- Getting my developer console set up.  Went looking for the generate static credentials for K3os.  It's hidden pretty well, but K3os installs its kubeconfig in ```/etc/rancher/k3s/k3s.yaml```
+- Installed VSCode extensions for issues and Kubernetes.  The Kube extension is actually pretty neat once you figure out that you need to set the server/namespace context in the experience.
+
+##### Friday May 1
+- Got PiHole Pod, and configuration checked in.  
+    - Persistent volumes for storage pi-hole and DNSMasq. 
+    - Secrets for passwords.
+    - Load-Balancer to punch the DNS into the host network.
+    - Initial goal is deprecate my RPi4 running Unbound and PiHole, then grab back a network port and cable.
+- Created a static DHCP address for my server to enable me to start using DNS to address it.  Starting to think about TLS certificates and other infrastructure that really needs DNS to function effectively.
+- Created internal and external DNS zones in AWS, 
+    - A rec's for the base server internal and external addresses, to be CNAMEd for various services.  Simplifies managing my server and points of presence - just two records to update, as well as giving me the option to split services later on.
+    - To be followed by CNAMEs for various services
+    - DNS Zone design here [TODO]
+
