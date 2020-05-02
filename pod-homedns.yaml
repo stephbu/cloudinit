@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2020-05-02T16:15:39Z"
+  labels:
+    run: pihole
+  name: homedns
+  namespace: stephbuorg
+  resourceVersion: "287807"
+  selfLink: /api/v1/namespaces/stephbuorg/pods/homedns
+  uid: fc754dc2-cc3c-48dc-a493-04c4c907c37c
+spec:
+  containers:
+  - env:
+    - name: TZ
+      value: America/Los_Angeles
+    - name: WEBPASSWORD
+      value: Password1!
+    image: pihole/pihole:latest
+    imagePullPolicy: Always
+    name: pihole
+    ports:
+    - containerPort: 53
+      name: dnsoverhttp
+      protocol: TCP
+    - containerPort: 53
+      name: dnsoverudp
+      protocol: UDP
+    - containerPort: 67
+      name: dnsmasq
+      protocol: UDP
+    - containerPort: 80
+      name: adminwebhttp
+      protocol: TCP
+    - containerPort: 443
+      name: adminwebhttps
+      protocol: TCP
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+        - SYS_TIME
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /etc/pihole/
+      name: pihole-dns-storage
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-swqx5
+      readOnly: true
+  dnsPolicy: ClusterFirstWithHostNet
+  enableServiceLinks: true
+  nodeName: k3os-546
+  priority: 0
+  restartPolicy: OnFailure
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: pihole-dns-storage
+    persistentVolumeClaim:
+      claimName: pihole-dns-storage-claim
+  - name: default-token-swqx5
+    secret:
+      defaultMode: 420
+      secretName: default-token-swqx5
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2020-05-02T16:15:39Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2020-05-02T16:26:25Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2020-05-02T16:26:25Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2020-05-02T16:15:39Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://85f6022b2496776f892b7d4fd3c231329612852e6e437536ebc8b1d73d1cfe13
+    image: docker.io/pihole/pihole:latest
+    imageID: docker.io/pihole/pihole@sha256:8c172c4cf344232a137202811b0c13a0542551076798d7635ef5368f40d1fe71
+    lastState:
+      terminated:
+        containerID: containerd://8bba39654e7ea0658807fe62794b8416a885c52c9424616bf38baefaec0f5f5a
+        exitCode: 1
+        finishedAt: "2020-05-02T16:26:12Z"
+        reason: Error
+        startedAt: "2020-05-02T16:23:51Z"
+    name: pihole
+    ready: true
+    restartCount: 2
+    started: true
+    state:
+      running:
+        startedAt: "2020-05-02T16:26:24Z"
+  hostIP: 192.168.86.253
+  phase: Running
+  podIP: 10.42.0.34
+  podIPs:
+  - ip: 10.42.0.34
+  qosClass: BestEffort
+  startTime: "2020-05-02T16:15:39Z"
