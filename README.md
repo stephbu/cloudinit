@@ -74,3 +74,10 @@ To achieve the objectives, I've set out to build a configured machine as follows
     - To be followed by CNAMEs for various services
     - DNS Zone design here [TODO]
 
+##### Tuesday May 5
+- Created ingress controllers 
+    - Code Server into ```code.internal.stephbu.org```
+    - PiHole into  ```pihole.internal.stephbu.org```
+- Small reorganization of storageClass, pv, pvc, pod, svc, ingress into single files.
+- Started work on AWS credentials, and automatic DNS Updater.
+- fixed up code-server persistent volume to UID1000 (```sudo chown 1000 /opt/project```)
