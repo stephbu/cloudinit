@@ -99,7 +99,7 @@ spec:
     - name: WEBPASSWORD
       valueFrom:
         secretKeyRef:
-          name: pihole-secrets
+          name: secret-admin
           key: password
     image: pihole/pihole:latest
     ports:
@@ -182,3 +182,18 @@ spec:
     name: adminwebhttp
   selector:
     run: pihole
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: "ingress-pihole-adminweb"
+  namespace: stephbuorg
+spec:
+  rules:
+    - host: pihole.internal.stephbu.org
+      http:
+        paths:
+          - path: /admin
+            backend:
+              serviceName: pihole-adminweb
+              servicePort: 8081

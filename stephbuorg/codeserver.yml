@@ -1,39 +1,107 @@
-apiVersion: apps/v1
-kind: Deployment
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
 metadata:
-  name: codeserver
+  name: code-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: project-storage
+  namespace: stephbuorg
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: code-storage
+  local:
+    path: /opt/project
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: k3os.io/mode
+          operator: In
+          values:
+          - local
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: codeserver-project-storage
+  namespace: stephbuorg
+spec:
+  storageClassName: code-storage
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: code-server
   namespace: stephbuorg
   labels:
-    app: codeserver
+    run: code-server
 spec:
-  replicas: 1
+  containers:
+  - name: server
+    env:
+    - name: PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: secret-admin
+          key: password
+    image: codercom/code-server
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
+      hostPort: 8080
+    securityContext:
+      privileged: true
+    volumeMounts:
+    - name: codeserver-storage
+      mountPath: /home/coder/project
+  volumes:
+  - name: codeserver-storage
+    persistentVolumeClaim:
+      claimName: codeserver-project-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-code-server-http
+  namespace: stephbuorg
+  labels:
+    run: code-server
+spec:
+  type: NodePort
+  externalTrafficPolicy: Local
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: code-server-http
   selector:
-    matchLabels:
-      app: codeserver
-  template:
-    metadata:
-      labels:
-        app: codeserver
-    spec:
-      hostNetwork: true
-      containers:
-      - name: server
-        image: codercom/code-server
-        imagePullPolicy: Always
-        args: 
-        - "-p"
-        - "8443"
-        - "--allow-http"
-        ports:
-        - containerPort: 8443
-          hostPort: 8443
-        securityContext:
-          privileged: true
-        volumeMounts:
-        - name: codeserver-storage
-          mountPath: /home/coder/project
-      volumes:
-      - name: codeserver-storage
-        persistentVolumeClaim:
-          claimName: codeserver-project-storage
-              
+    run: code-server
+---
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: "ingress-code-server-http"
+  namespace: stephbuorg
+spec:
+  rules:
+    - host: code.internal.stephbu.org
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: service-code-server-http
+              servicePort: 8080
