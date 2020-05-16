@@ -3,9 +3,6 @@
 ## Overview
 This project is the configuration tracking for the rebuild of my home automation using a cheap Intel fanless quad-core machine.
 
-
-
-
 ## Objective
 
 Run a number of systems to support my home network:
@@ -39,7 +36,8 @@ To achieve the objectives, I've set out to build a configured machine as follows
 - FIX: Noticed that the default cloud init didn't write NTP servers, so the time was drifting - about 5mins in ~2 weeks.  Man it's a pain to go back and fix an error in the cloud-init, ended up using a LiveCD to mount ```/dev/sda2``` and edit ```/k3os/system/config.yaml``` manually.
 - UPDATE: Upgraded k3OS using the automated controller, quick reboot and I went up from running 1.14 to 1.17.
 - UPDATE: Added a deployment spec to HomeDNS bare pod after taking the upgrade. No more hard-failures on reboot.
-- UPDATE: Started looking at OpenVPN in a container to figure out the pod specs, storage etc.  Figure I'll probably create the Let's Encrypt
+- UPDATE: Wrote KubeSpecs for Crazy Max's Route53 Dynamic DNS updater.  I'll be using this to keep track of the external edge for OpenVPN.
+- UPDATE: Wrote a little script to generate a Kube Generic Secret that contains the AWS secret access keys to update Route53.
 
 ##### Tuesday May 14
 - UPDATE: Created container and storage for Unbound server, ported Unbound configuration to persistent storage. 

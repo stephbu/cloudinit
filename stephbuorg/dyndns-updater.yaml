@@ -1,0 +1,123 @@
+# Storage Class
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: config-storage
+  namespace: stephbuorg
+  labels:
+    app: dyndns-updater
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+# Persistent Volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dyndns-config-storage
+  namespace: stephbuorg
+  labels:
+    app: dyndns-updater
+spec:
+  capacity:
+    storage: 100Ki
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: config-storage
+  local:
+    path: /opt/dyndns
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: k3os.io/mode
+          operator: In
+          values:
+          - local
+---
+# Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dyndns-config-storage-claim
+  namespace: stephbuorg
+  labels:
+    app: dyndns-updater
+spec:
+  storageClassName: config-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Ki
+---
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dyndns-updater-deployment
+  namespace: stephbuorg
+  labels:
+    app: dyndns-updater
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dyndns-updater
+  template:
+    metadata:
+      name: dyndns-updater
+      namespace: stephbuorg
+      labels:
+        app: dyndns-updater
+    spec:
+      hostname: dyndns-updater
+      containers:
+      - name: dyndns
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: secret-aws
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: secret-aws
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_HOSTED_ZONE_ID
+          valueFrom:
+            secretKeyRef:
+              name: secret-aws
+              key: AWS_HOSTED_ZONE_ID
+        - name: CONFIG
+          value: /opt/dyndns/config.yaml
+        - name: LOG_LEVEL
+          value: error
+        - name: SCHEDULE
+          value: "*/30 * * * *"
+        image: crazymax/ddns-route53:1.9.1
+        args: ["--config", "/opt/dyndns/config.yaml"]
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: dyndns-config-storage
+          mountPath: /opt/dyndns
+      volumes:
+      - name: dyndns-config-storage
+        persistentVolumeClaim:
+          claimName: dyndns-config-storage-claim
+      dnsPolicy: ClusterFirstWithHostNet
+      priority: 0
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+        tolerationSeconds: 300
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+        tolerationSeconds: 300
