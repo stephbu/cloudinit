@@ -4,6 +4,8 @@ kind: StorageClass
 metadata:
   name: dns-storage
   namespace: stephbuorg
+  labels:
+    app: network-dns
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 ---
@@ -12,6 +14,8 @@ kind: PersistentVolume
 metadata:
   name: unbound-dns-storage
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   capacity:
     storage: 500Ki
@@ -37,6 +41,8 @@ kind: PersistentVolume
 metadata:
   name: dnsmasq-dns-storage
   namespace: stephbuorg
+  labels:
+    app: network-dns  
 spec:
   capacity:
     storage: 500Ki
@@ -62,6 +68,8 @@ kind: PersistentVolume
 metadata:
   name: pihole-dns-storage
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   capacity:
     storage: 2Gi
@@ -87,6 +95,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: pihole-dns-storage-claim
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   storageClassName: dns-storage
   accessModes:
@@ -100,6 +110,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: dnsmasq-dns-storage-claim
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   storageClassName: dns-storage
   accessModes:
@@ -113,6 +125,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: unbound-dns-storage-claim
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   storageClassName: dns-storage
   accessModes:
@@ -121,86 +135,99 @@ spec:
     requests:
       storage: 500Ki
 ---
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: homedns
+  name: network-dns-deployment
   namespace: stephbuorg
   labels:
-    run: pihole
+    app: network-dns
 spec:
-  containers:
-  - name: unbound
-    image: mvance/unbound:latest
-    ports:
-    - name: dnsoverudp
-      containerPort: 5353
-      protocol: UDP
-    - name: dnsovertcp
-      containerPort: 5353
-      protocol: TCP
-    imagePullPolicy: Always
-    volumeMounts:
-    - name: unbound-dns-storage
-      mountPath: /opt/unbound/etc/unbound/
-  - name: pihole
-    env:
-    - name: TZ
-      value: "America/Los_Angeles"
-    - name: WEBPASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: secret-admin
-          key: password
-    image: pihole/pihole:latest
-    ports:
-    - name: dnsoverhttp
-      containerPort: 53
-      protocol: TCP
-    - name: dnsoverudp
-      containerPort: 53
-      protocol: UDP
-    - name: dnsmasq
-      containerPort: 67
-      protocol: UDP
-    - name: adminwebhttp
-      containerPort: 80
-      protocol: TCP
-    - name: adminwebhttps
-      containerPort: 443
-      protocol: TCP      
-    imagePullPolicy: Always
-    securityContext:
-      capabilities:
-        add: ["NET_ADMIN", "SYS_TIME"]
-    volumeMounts:
-    - name: pihole-dns-storage
-      mountPath: /etc/pihole/
-    - name: dnsmasq-dns-storage
-      mountPath: /etc/dnsmasq.d/
-  volumes:
-  - name: unbound-dns-storage
-    persistentVolumeClaim:
-      claimName: unbound-dns-storage-claim
-  - name: pihole-dns-storage
-    persistentVolumeClaim:
-      claimName: pihole-dns-storage-claim
-  - name: dnsmasq-dns-storage
-    persistentVolumeClaim:
-      claimName: dnsmasq-dns-storage-claim  
-  dnsPolicy: ClusterFirstWithHostNet
-  priority: 0
-  restartPolicy: OnFailure
-  terminationGracePeriodSeconds: 30
-  tolerations:
-  - effect: NoExecute
-    key: node.kubernetes.io/not-ready
-    operator: Exists
-    tolerationSeconds: 300
-  - effect: NoExecute
-    key: node.kubernetes.io/unreachable
-    operator: Exists
-    tolerationSeconds: 300
+  replicas: 1
+  selector:
+    matchLabels:
+      app: network-dns
+  template:
+    metadata:
+      name: homedns
+      namespace: stephbuorg
+      labels:
+        app: network-dns
+        run: pihole
+    spec:
+      hostname: network-dns
+      containers:
+      - name: unbound
+        image: mvance/unbound:latest
+        ports:
+        - name: dnsoverudp
+          containerPort: 5353
+          protocol: UDP
+        - name: dnsovertcp
+          containerPort: 5353
+          protocol: TCP
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: unbound-dns-storage
+          mountPath: /opt/unbound/etc/unbound/
+      - name: pihole
+        env:
+        - name: TZ
+          value: "America/Los_Angeles"
+        - name: WEBPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-admin
+              key: password
+        image: pihole/pihole:latest
+        ports:
+        - name: dnsoverhttp
+          containerPort: 53
+          protocol: TCP
+        - name: dnsoverudp
+          containerPort: 53
+          protocol: UDP
+        - name: dnsmasq
+          containerPort: 67
+          protocol: UDP
+        - name: adminwebhttp
+          containerPort: 80
+          protocol: TCP
+        - name: adminwebhttps
+          containerPort: 443
+          protocol: TCP      
+        imagePullPolicy: Always
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN", "SYS_TIME"]
+        volumeMounts:
+        - name: pihole-dns-storage
+          mountPath: /etc/pihole/
+        - name: dnsmasq-dns-storage
+          mountPath: /etc/dnsmasq.d/
+      volumes:
+      - name: unbound-dns-storage
+        persistentVolumeClaim:
+          claimName: unbound-dns-storage-claim
+      - name: pihole-dns-storage
+        persistentVolumeClaim:
+          claimName: pihole-dns-storage-claim
+      - name: dnsmasq-dns-storage
+        persistentVolumeClaim:
+          claimName: dnsmasq-dns-storage-claim  
+      dnsPolicy: ClusterFirstWithHostNet
+      priority: 0
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - effect: NoExecute
+        key: node.kubernetes.io/not-ready
+        operator: Exists
+        tolerationSeconds: 300
+      - effect: NoExecute
+        key: node.kubernetes.io/unreachable
+        operator: Exists
+        tolerationSeconds: 300
 ---
 apiVersion: v1
 kind: Service
@@ -208,6 +235,7 @@ metadata:
   name: pihole-dns
   namespace: stephbuorg
   labels:
+    app: network-dns
     run: pihole
 spec:
   type: LoadBalancer
@@ -224,7 +252,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pihole-adminweb
+  namespace: stephbuorg  
   labels:
+    app: network-dns
     run: pihole
 spec:
   type: LoadBalancer
@@ -242,6 +272,8 @@ apiVersion: extensions/v1beta1
 metadata:
   name: "ingress-pihole-adminweb"
   namespace: stephbuorg
+  labels:
+    app: network-dns
 spec:
   rules:
     - host: pihole.internal.stephbu.org

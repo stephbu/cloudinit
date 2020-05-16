@@ -36,7 +36,9 @@ To achieve the objectives, I've set out to build a configured machine as follows
 ## Journal
 
 ##### Saturday May 16
-- FIX: Noticed that the default cloud init didn't write NTP servers, so the time was drifting - about 5mins in ~2 weeks.
+- FIX: Noticed that the default cloud init didn't write NTP servers, so the time was drifting - about 5mins in ~2 weeks.  Man it's a pain to go back and fix an error in the cloud-init, ended up using a LiveCD to mount ```/dev/sda2``` and edit ```/k3os/system/config.yaml``` manually.
+- UPDATE: Upgraded k3OS using the automated controller, quick reboot and I went up from running 1.14 to 1.17.
+- UPDATE: Added a deployment spec to HomeDNS bare pod after taking the upgrade. No more hard-failures on reboot.
 - UPDATE: Started looking at OpenVPN in a container to figure out the pod specs, storage etc.  Figure I'll probably create the Let's Encrypt
 
 ##### Tuesday May 14
