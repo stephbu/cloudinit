@@ -7,3 +7,8 @@ ssh_authorized_keys:
 k3os:
   dns_nameservers:
   - 1.1.1.1
+  ntp_servers:
+  - 0.pool.ntp.org
+  - 1.pool.ntp.org
+  - 2.pool.ntp.org
+  - 3.pool.ntp.org
