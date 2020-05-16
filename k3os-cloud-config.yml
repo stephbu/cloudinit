@@ -1,3 +1,4 @@
+#cloud-config
 ssh_authorized_keys:
 # use SSH public keys from my GitHub account
 # syntax: "github:<accountname>"

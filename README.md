@@ -35,9 +35,13 @@ To achieve the objectives, I've set out to build a configured machine as follows
 
 ## Journal
 
+##### Saturday May 16
+- FIX: Noticed that the default cloud init didn't write NTP servers, so the time was drifting - about 5mins in ~2 weeks.
+- UPDATE: Started looking at OpenVPN in a container to figure out the pod specs, storage etc.  Figure I'll probably create the Let's Encrypt
+
 ##### Tuesday May 14
-- Created container and storage for Unbound server, ported Unbound configuration to persistent storage. 
-- Deployed reconfigured pi-hole now using local Unbound server on 127.0.0.1#5353 for DNS resolution.
+- UPDATE: Created container and storage for Unbound server, ported Unbound configuration to persistent storage. 
+- UPDATE: Deployed reconfigured pi-hole now using local Unbound server on 127.0.0.1#5353 for DNS resolution.
 
 ##### Tuesday May 5
 - Created ingress controllers 
