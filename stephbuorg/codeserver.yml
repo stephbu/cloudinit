@@ -43,36 +43,48 @@ spec:
     requests:
       storage: 50Gi
 ---
-apiVersion: v1
-kind: Pod
+
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: code-server
+  name: code-server-deployment
   namespace: stephbuorg
   labels:
-    run: code-server
+    app: code-server
 spec:
-  containers:
-  - name: server
-    env:
-    - name: PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: secret-admin
-          key: password
-    image: codercom/code-server
-    imagePullPolicy: Always
-    ports:
-    - containerPort: 8080
-      hostPort: 8080
-    securityContext:
-      privileged: true
-    volumeMounts:
-    - name: codeserver-storage
-      mountPath: /home/coder/project
-  volumes:
-  - name: codeserver-storage
-    persistentVolumeClaim:
-      claimName: codeserver-project-storage
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      name: code-server
+      namespace: stephbuorg
+      labels:
+        app: code-server      
+    spec:
+      containers:
+      - name: server
+        env:
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: secret-admin
+              key: password
+        image: codercom/code-server
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          hostPort: 8080
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: codeserver-storage
+          mountPath: /home/coder/project
+      volumes:
+      - name: codeserver-storage
+        persistentVolumeClaim:
+          claimName: codeserver-project-storage
 ---
 apiVersion: v1
 kind: Service
@@ -80,7 +92,7 @@ metadata:
   name: service-code-server-http
   namespace: stephbuorg
   labels:
-    run: code-server
+    app: code-server
 spec:
   type: NodePort
   externalTrafficPolicy: Local
@@ -89,7 +101,7 @@ spec:
     protocol: TCP
     name: code-server-http
   selector:
-    run: code-server
+    app: code-server
 ---
 kind: Ingress
 apiVersion: extensions/v1beta1

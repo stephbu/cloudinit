@@ -32,6 +32,10 @@ To achieve the objectives, I've set out to build a configured machine as follows
 
 ## Journal
 
+##### Monday May 18
+- FIX: Chased down an unusual error DNS where my internal zone ```internal.stephbu.org``` and any record within was intermittently unresolvable.  PiHole was caching an NXDOMAIN answer.  Finally tracked it down through ```dig``` to an odd difference in TTL between the NS record (300s) and the A record (3600s).  Not entirely convinced I know exactly why, but moving the TTL for the zone upto much higher 172400 fixed the issue.
+- UPDATE: Added a deployment to the ```code-server.yaml```.
+
 ##### Saturday May 16
 - FIX: Noticed that the default cloud init didn't write NTP servers, so the time was drifting - about 5mins in ~2 weeks.  Man it's a pain to go back and fix an error in the cloud-init, ended up using a LiveCD to mount ```/dev/sda2``` and edit ```/k3os/system/config.yaml``` manually.
 - UPDATE: Upgraded k3OS using the automated controller, quick reboot and I went up from running 1.14 to 1.17.

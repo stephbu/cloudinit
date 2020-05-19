@@ -244,7 +244,11 @@ spec:
   - port: 53
     targetPort: 53
     protocol: UDP
-    name: dnsoverudp
+    name: piholednsoverudp
+  - port: 5353
+    targetPort: 5353
+    protocol: UDP
+    name: unbounddnsoverudp
   selector:
     run: pihole
 ---
