@@ -32,6 +32,9 @@ To achieve the objectives, I've set out to build a configured machine as follows
 
 ## Journal
 
+##### Wednesday June 3
+- UPDATE: added a tmpfs volume for /var/log in the pihole container to reduce the amount of disk IO from weblog access.  Will possibly add more tmpfs mounts. 
+
 ##### Monday May 18
 - FIX: Chased down an unusual error DNS where my internal zone ```internal.stephbu.org``` and any record within was intermittently unresolvable.  PiHole was caching an NXDOMAIN answer.  Finally tracked it down through ```dig``` to an odd difference in TTL between the NS record (300s) and the A record (3600s).  Not entirely convinced I know exactly why, but moving the TTL for the zone upto much higher 172400 fixed the issue.
 - UPDATE: Added a deployment to the ```code-server.yaml```.

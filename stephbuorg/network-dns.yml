@@ -168,6 +168,8 @@ spec:
           protocol: TCP
         imagePullPolicy: Always
         volumeMounts:
+        - name: varlog
+          mountPath: /var/log       
         - name: unbound-dns-storage
           mountPath: /opt/unbound/etc/unbound/
       - name: pihole
@@ -206,6 +208,10 @@ spec:
         - name: dnsmasq-dns-storage
           mountPath: /etc/dnsmasq.d/
       volumes:
+      - name: varlog
+        emptyDir:
+          medium: Memory
+          sizeLimit: "128Mi"
       - name: unbound-dns-storage
         persistentVolumeClaim:
           claimName: unbound-dns-storage-claim
