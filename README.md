@@ -26,7 +26,7 @@ To achieve the objectives, I've set out to build a configured machine as follows
 7. [x] PiHole - DNS Blacklisting System.
 8. [x] Unbound - Root DNS Lookup Service.
 9. [ ] OpenVPN - VPN breakout
-10. [ ] R53 Update Service - Route 53 Dynamic DNS Updater
+10. [x] R53 Update Service - Route 53 Dynamic DNS Updater
 11. [ ] Prometheus - Monitoring/alerting for VPN, LDAP, Wifi etc.
 12. [x] Code Server - Visual Studio Code in a browser.
 
